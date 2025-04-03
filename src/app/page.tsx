@@ -1,5 +1,6 @@
-// Force this page to render on every request
+// Force this page to be rendered dynamically on every request
 export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 import DiamondGallery from '@/components/DiamondGallery';
 import StatsOverview from '@/components/StatsOverview';
@@ -39,9 +40,8 @@ async function getDiamondData(page: number = 1, pageSize: number = 12): Promise<
 
     console.log('Fetching diamonds from:', apiUrl);
     
-    const res = await fetch(apiUrl, {
-      cache: 'no-store'
-    });
+    // Force a dynamic fetch at runtime by specifying revalidation to 0
+    const res = await fetch(apiUrl, { cache: 'no-store', next: { revalidate: 0 } });
     
     if (!res.ok) {
       const errorText = await res.text();
