@@ -40,15 +40,14 @@ async function getDiamondById(id: string): Promise<Diamond | null> {
   return diamond || null;
 }
 
-interface PageProps {
-  params: {
-    id: string;
-  };
-  searchParams?: { [key: string]: string | string[] | undefined };
+type PageParams = {
+  id: string;
 }
 
-export default async function DiamondDetail({ params }: PageProps) {
-  const diamond = await getDiamondById(params.id);
+export default async function DiamondDetail(props: {
+  params: PageParams;
+}) {
+  const diamond = await getDiamondById(props.params.id);
   
   if (!diamond) {
     notFound();
