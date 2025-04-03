@@ -12,10 +12,10 @@ interface Diamond {
 }
 
 interface DiamondVisualizationsProps {
-  diamonds: Diamond[];
+  diamonds?: Diamond[];
 }
 
-export default function DiamondVisualizations({ diamonds }: DiamondVisualizationsProps) {
+export default function DiamondVisualizations({ diamonds = [] }: DiamondVisualizationsProps) {
   const priceByCaratRef = useRef<SVGSVGElement>(null);
   const [hoveredDiamond, setHoveredDiamond] = useState<Diamond | null>(null);
 

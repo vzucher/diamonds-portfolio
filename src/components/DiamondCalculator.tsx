@@ -20,7 +20,7 @@ interface DiamondCalculatorProps {
   diamonds: Diamond[];
 }
 
-export default function DiamondCalculator({ diamonds }: DiamondCalculatorProps) {
+export default function DiamondCalculator({ diamonds = [] }: DiamondCalculatorProps) {
   const [carat, setCarat] = useState(0.5);
   const [color, setColor] = useState('D');
   const [clarity, setClarity] = useState('IF');
@@ -28,12 +28,12 @@ export default function DiamondCalculator({ diamonds }: DiamondCalculatorProps) 
   const [isEngagement, setIsEngagement] = useState(true);
   const [calculatedPrice, setCalculatedPrice] = useState(0);
 
-  // Get unique colors and clarities from the dataset
-  const uniqueColors = Array.from(new Set(diamonds.map(d => d.color))).sort();
-  const uniqueClarities = Array.from(new Set(diamonds.map(d => d.clarity))).sort();
+  // Get unique colors and clarities from the dataset with null checks
+  const uniqueColors = Array.from(new Set(diamonds?.map(d => d.color) || [])).sort();
+  const uniqueClarities = Array.from(new Set(diamonds?.map(d => d.clarity) || [])).sort();
 
   // Calculate min and max carat from the dataset with validation
-  const validDiamonds = diamonds.filter(d => !isNaN(d.carat) && d.carat > 0);
+  const validDiamonds = diamonds?.filter(d => !isNaN(d.carat) && d.carat > 0) || [];
   const minCarat = validDiamonds.length > 0 ? Math.min(...validDiamonds.map(d => d.carat)) : 0.1;
   const maxCarat = validDiamonds.length > 0 ? Math.max(...validDiamonds.map(d => d.carat)) : 5.0;
 

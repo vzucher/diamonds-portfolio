@@ -11,10 +11,10 @@ interface Diamond {
 }
 
 interface StatsOverviewProps {
-  diamonds: Diamond[];
+  diamonds?: Diamond[];
 }
 
-export default function StatsOverview({ diamonds }: StatsOverviewProps) {
+export default function StatsOverview({ diamonds = [] }: StatsOverviewProps) {
   const stats = useMemo(() => {
     // Filter out any invalid data
     const validDiamonds = diamonds.filter(d => 
@@ -22,23 +22,31 @@ export default function StatsOverview({ diamonds }: StatsOverviewProps) {
     );
     
     if (validDiamonds.length === 0) {
-      return { avgPrice: 0, avgCarat: 0, mostCommonCut: 'N/A' };
+      return {
+        avgPrice: 0,
+        avgCarat: 0,
+        mostCommonCut: 'N/A'
+      };
     }
-    
-    const avgPrice = validDiamonds.reduce((sum, d) => sum + d.price, 0) / validDiamonds.length;
-    const avgCarat = validDiamonds.reduce((sum, d) => sum + d.carat, 0) / validDiamonds.length;
+
+    const totalPrice = validDiamonds.reduce((sum, d) => sum + d.price, 0);
+    const totalCarat = validDiamonds.reduce((sum, d) => sum + d.carat, 0);
     
     // Count occurrences of each cut
-    const cutCounts = validDiamonds.reduce((acc, d) => {
-      acc[d.cut] = (acc[d.cut] || 0) + 1;
-      return acc;
+    const cutCounts = validDiamonds.reduce((counts, d) => {
+      counts[d.cut] = (counts[d.cut] || 0) + 1;
+      return counts;
     }, {} as Record<string, number>);
     
     // Find the most common cut
     const mostCommonCut = Object.entries(cutCounts)
-      .sort((a, b) => b[1] - a[1])[0][0];
+      .reduce((a, b) => a[1] > b[1] ? a : b)[0];
 
-    return { avgPrice, avgCarat, mostCommonCut };
+    return {
+      avgPrice: totalPrice / validDiamonds.length,
+      avgCarat: totalCarat / validDiamonds.length,
+      mostCommonCut
+    };
   }, [diamonds]);
 
   return (

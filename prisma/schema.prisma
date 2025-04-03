@@ -1,0 +1,24 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Diamond {
+  id        Int      @id @default(autoincrement())
+  carat     Float
+  cut       String
+  color     String
+  clarity   String
+  depth     Float
+  table     Float
+  price     Int
+  x         Float
+  y         Float
+  z         Float
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

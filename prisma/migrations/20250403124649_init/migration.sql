@@ -1,0 +1,18 @@
+-- CreateTable
+CREATE TABLE "Diamond" (
+    "id" SERIAL NOT NULL,
+    "carat" DOUBLE PRECISION NOT NULL,
+    "cut" TEXT NOT NULL,
+    "color" TEXT NOT NULL,
+    "clarity" TEXT NOT NULL,
+    "depth" DOUBLE PRECISION NOT NULL,
+    "table" DOUBLE PRECISION NOT NULL,
+    "price" INTEGER NOT NULL,
+    "x" DOUBLE PRECISION NOT NULL,
+    "y" DOUBLE PRECISION NOT NULL,
+    "z" DOUBLE PRECISION NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "Diamond_pkey" PRIMARY KEY ("id")
+);

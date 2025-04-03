@@ -8,7 +8,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Almazi Diamonds",
+  title: "Almazy Diamonds",
   description: "Explore our collection of unique diamonds",
 };
 
