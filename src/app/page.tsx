@@ -3,6 +3,7 @@ import StatsOverview from '@/components/StatsOverview';
 import DiamondVisualizations from '@/components/DiamondVisualizations';
 import DiamondCalculator from '@/components/DiamondCalculator';
 import AboutUs from '@/components/AboutUs';
+import { headers } from 'next/headers';
 
 interface Diamond {
   id?: number;
@@ -19,7 +20,12 @@ interface Diamond {
 }
 
 async function getDiamondData(): Promise<Diamond[]> {
-  const res = await fetch('/api/diamonds', {
+  const headersList = headers();
+  const protocol = headersList.get('x-forwarded-proto') || 'http';
+  const host = headersList.get('host') || 'localhost:3000';
+  const apiUrl = `${protocol}://${host}/api/diamonds`;
+
+  const res = await fetch(apiUrl, {
     next: { revalidate: 3600 } // Revalidate every hour
   });
   
