@@ -1,0 +1,4 @@
+# Ignore everything except the data directory
+*
+!data/
+!data/diamonds.csv 
