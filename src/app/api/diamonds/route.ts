@@ -1,9 +1,8 @@
-import { promises as fs } from 'fs';
-import path from 'path';
-import { parse } from 'papaparse';
 import { NextResponse } from 'next/server';
+import diamonds from '@/data/diamonds.json';
 
 interface Diamond {
+  id: number;
   carat: number;
   cut: string;
   color: string;
@@ -16,31 +15,15 @@ interface Diamond {
   z: number;
 }
 
+const typedDiamonds = diamonds as Diamond[];
+
 export async function GET() {
   try {
-    console.log('Reading diamond data...');
-    const filePath = path.join(process.cwd(), 'data', 'diamonds.csv');
-    console.log('File path:', filePath);
-    
-    const fileContent = await fs.readFile(filePath, 'utf-8');
-    console.log('File content length:', fileContent.length);
-    
-    const { data } = parse(fileContent, {
-      header: true,
-      dynamicTyping: true,
-    });
-    console.log('Parsed data length:', data.length);
-    
-    // Add IDs to the diamonds
-    const diamonds = (data as Diamond[]).map((diamond, index) => ({
-      ...diamond,
-      id: index + 1
-    }));
-    console.log('Processed diamonds length:', diamonds.length);
-    
-    return NextResponse.json(diamonds);
+    console.log('Serving diamond data...');
+    console.log('Number of diamonds:', typedDiamonds.length);
+    return NextResponse.json(typedDiamonds);
   } catch (error) {
-    console.error('Error reading diamond data:', error);
+    console.error('Error serving diamond data:', error);
     return NextResponse.json(
       { 
         error: 'Failed to load diamond data',
