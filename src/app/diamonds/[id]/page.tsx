@@ -40,14 +40,12 @@ async function getDiamondById(id: string): Promise<Diamond | null> {
   return diamond || null;
 }
 
-// Define the correct type for the page props
-type Props = {
-  params: {
-    id: string;
-  };
-};
-
-export default async function DiamondDetail({ params }: Props) {
+// Use the correct type for Next.js App Router pages
+export default async function DiamondDetail({
+  params,
+}: {
+  params: { id: string };
+}) {
   const diamond = await getDiamondById(params.id);
   
   if (!diamond) {
