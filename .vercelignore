@@ -1,3 +1,12 @@
+# Ignore unnecessary files
+.git
+.gitignore
+node_modules
+.next
+.env
+.env.local
+README.md
+
 # Ignore everything except the data directory
 *
 !data/
