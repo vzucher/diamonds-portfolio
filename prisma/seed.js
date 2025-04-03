@@ -284,7 +284,7 @@ const sampleDiamonds = [
 
 async function main() {
   console.log('Starting seed...');
-  console.log('Database URL:', process.env.DATABASE_URL ? 'Present' : 'Missing');
+  console.log('Database URL:', process.env.DIRECT_URL ? 'Present' : 'Missing');
   
   try {
     // Verify database connection
