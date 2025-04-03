@@ -36,12 +36,14 @@ async function getDiamondData(page: number = 1, pageSize: number = 12): Promise<
     const headersList = headers();
     const protocol = headersList.get('x-forwarded-proto') || 'http';
     const host = headersList.get('host') || 'localhost:3000';
+    const cookie = headersList.get('cookie') || '';
     const apiUrl = `${protocol}://${host}/api/diamonds?page=${page}&pageSize=${pageSize}`;
-
-    console.log('Fetching diamonds from:', apiUrl);
     
-    // Force a dynamic fetch at runtime by specifying revalidation to 0
-    const res = await fetch(apiUrl, { cache: 'no-store', next: { revalidate: 0 } });
+    const res = await fetch(apiUrl, {
+      cache: 'no-store',
+      next: { revalidate: 0 },
+      headers: { cookie }
+    });    
     
     if (!res.ok) {
       const errorText = await res.text();
