@@ -5,6 +5,12 @@ import { prisma } from '@/lib/prisma';
 export const dynamic = 'force-dynamic';
 
 export async function GET(request: Request) {
+  // Log request headers for debugging
+  console.log("=== Incoming Request Headers ===");
+  for (const [key, value] of request.headers.entries()) {
+    console.log(`${key}: ${value}`);
+  }
+  
   try {
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get('page') || '1');
@@ -27,11 +33,7 @@ export async function GET(request: Request) {
       ...(clarity ? { clarity } : {})
     };
 
-    console.log('Database query parameters:', {
-      where,
-      skip,
-      take: pageSize
-    });
+    console.log('Database query parameters:', { where, skip, take: pageSize });
 
     // Get the total count and paginated diamonds in parallel
     const [totalCount, diamonds] = await Promise.all([

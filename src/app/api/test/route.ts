@@ -5,12 +5,12 @@ import { prisma } from '@/lib/prisma';
 export const dynamic = 'force-dynamic';
 
 export async function GET() {
+  console.log("=== Test API Request Started ===");
   try {
-    // Test database connection
+    // Log database test query
     const testResult = await prisma.$queryRaw`SELECT 1 as test`;
     console.log('Database test result:', testResult);
     
-    // Test table existence with explicit type
     const tableExists = await prisma.$queryRaw<{ exists: boolean }[]>`
       SELECT EXISTS (
         SELECT FROM information_schema.tables 
@@ -20,7 +20,6 @@ export async function GET() {
     `;
     console.log('Diamond table exists:', tableExists);
     
-    // Test data count
     const count = await prisma.diamond.count();
     console.log('Diamond count:', count);
     
@@ -35,7 +34,7 @@ export async function GET() {
       { 
         error: 'Database test failed',
         details: error instanceof Error ? error.message : 'Unknown error'
-      }, 
+      },
       { status: 500 }
     );
   }
